@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { Award, BookOpen, CheckCircle2, TrendingUp } from "lucide-react"
+import { Award, BookOpen, CheckCircle2, TrendingUp, Sparkles } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
 import { getCurrentProfile } from "@/lib/supabase/auth"
 import { AppHeader } from "@/components/app-header"
@@ -56,7 +56,7 @@ export default async function DashboardPage() {
           <h1 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
             Welcome back, {profile.full_name?.split(" ")[0] ?? "student"}
           </h1>
-          <p className="mt-1 text-muted-foreground">Here&apos;s your assessment overview.</p>
+          <p className="mt-1 text-muted-foreground">Your exams, progress and results — all in one simple place.</p>
         </div>
 
         <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -72,12 +72,10 @@ export default async function DashboardPage() {
           </div>
           {availableExams.length === 0 ? (
             <Card>
-              <CardContent className="flex flex-col items-center gap-2 py-12 text-center">
-                <BookOpen className="h-8 w-8 text-muted-foreground" />
-                <p className="font-medium">No exams available right now</p>
-                <p className="text-sm text-muted-foreground">
-                  New exams published by your instructor will appear here.
-                </p>
+              <CardContent className="flex flex-col items-center gap-3 py-12 text-center">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary"><Sparkles className="h-5 w-5" /></span>
+                <p className="font-medium">You&apos;re all caught up</p>
+                <p className="max-w-md text-sm text-muted-foreground">New exams published for you will appear here. Check back when your instructor or exam administrator announces a new assessment.</p>
               </CardContent>
             </Card>
           ) : (

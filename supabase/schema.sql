@@ -61,8 +61,8 @@ language plpgsql
 security definer set search_path = public
 as $$
 begin
-  insert into public.profiles (id, full_name)
-  values (new.id, coalesce(new.raw_user_meta_data->>'full_name', ''))
+  insert into public.profiles (id, full_name, role)
+  values (new.id, coalesce(new.raw_user_meta_data->>'full_name', ''), 'student')
   on conflict (id) do nothing;
   return new;
 end;
@@ -96,8 +96,12 @@ for select to authenticated using (id = auth.uid() or public.is_admin());
 
 drop policy if exists "profiles own update" on public.profiles;
 create policy "profiles own update" on public.profiles
-for update to authenticated using (id = auth.uid() or public.is_admin())
-with check (id = auth.uid() or public.is_admin());
+for update to authenticated
+using (id = auth.uid() or public.is_admin())
+with check (
+  public.is_admin()
+  or (id = auth.uid() and role = 'student')
+);
 
 drop policy if exists "exams published or admin read" on public.exams;
 create policy "exams published or admin read" on public.exams
@@ -151,3 +155,23 @@ for insert to authenticated with check (student_id = auth.uid() and not public.i
 
 -- Admin result exports use authenticated Supabase access and therefore rely on the
 -- admin SELECT policy above.
+
+
+-- IMPORTANT SECURITY MIGRATION FOR EXISTING DATABASES:
+-- Public sign-up must always create students. Never trust a role sent from the browser.
+-- Run this script after applying the schema to existing projects.
+-- Existing admin rows are preserved.
+
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  insert into public.profiles (id, full_name, role)
+  values (new.id, coalesce(new.raw_user_meta_data->>'full_name', ''), 'student')
+  on conflict (id) do nothing;
+  return new;
+end;
+$$;
+

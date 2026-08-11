@@ -163,3 +163,27 @@ The service worker deliberately does not cache authenticated API requests or exa
 - Students can only view their own result pages.
 - Supabase RLS policies are included in `supabase/schema.sql`.
 - Do not use a service-role/secret Supabase key in the frontend.
+
+## Roles and registration
+
+- Public registration is **student-only**. The browser never sends an admin role during sign-up.
+- Administrator accounts are provisioned separately. Use **/admin/login** for the administrator portal.
+- A student account cannot access `/admin`; server-side `requireAdmin()` checks the database role.
+- The database trigger always creates newly registered users with `role = 'student'`.
+- The profile update RLS policy prevents a student from changing their own role to `admin`.
+
+### Provision the first administrator
+
+1. Create the administrator account in Supabase Authentication → Users.
+2. Find that user's UUID.
+3. In SQL Editor run:
+
+```sql
+UPDATE public.profiles
+SET role = 'admin'
+WHERE id = 'USER_UUID';
+```
+
+4. Sign in at `/admin/login`.
+
+For an existing database, run `supabase/security-migration.sql` before using the new registration flow.

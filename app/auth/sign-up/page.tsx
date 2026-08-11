@@ -18,10 +18,13 @@ export default async function SignUpPage() {
         </Link>
         <SignUpForm />
         <p className="mt-6 text-center text-sm text-muted-foreground">
-          {"Already have an account? "}
+          Already have an account?{" "}
           <Link href="/auth/login" className="font-medium text-primary hover:underline">
             Sign in
           </Link>
+        </p>
+        <p className="mt-3 text-center text-xs text-muted-foreground">
+          Administrator? <Link href="/admin/login" className="font-medium text-primary hover:underline">Use the admin portal</Link>
         </p>
       </div>
     </main>

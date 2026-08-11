@@ -59,10 +59,10 @@ export default async function HomePage() {
           <BrandLogo />
           <div className="flex items-center gap-2">
             <Button variant="ghost" asChild>
-              <Link href="/auth/login">Sign in</Link>
+              <Link href="/auth/login">Student sign in</Link>
             </Button>
             <Button asChild>
-              <Link href="/auth/sign-up">Get started</Link>
+              <Link href="/auth/sign-up">Create student account</Link>
             </Button>
           </div>
         </div>
@@ -85,10 +85,10 @@ export default async function HomePage() {
             </p>
             <div className="flex flex-wrap gap-3">
               <Button size="lg" asChild>
-                <Link href="/auth/sign-up">Create free account</Link>
+                <Link href="/auth/sign-up">Create student account</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="/auth/login">I already have an account</Link>
+                <Link href="/auth/login">I already have a student account</Link>
               </Button>
             </div>
           </div>
@@ -144,7 +144,7 @@ export default async function HomePage() {
               instantly.
             </p>
             <Button size="lg" variant="secondary" asChild>
-              <Link href="/auth/sign-up">Get started for free</Link>
+              <Link href="/auth/sign-up">Create student account</Link>
             </Button>
           </div>
         </section>
@@ -153,7 +153,7 @@ export default async function HomePage() {
       <footer className="border-t border-border/60">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-muted-foreground sm:flex-row">
           <BrandLogo />
-          <p>&copy; {new Date().getFullYear()} Examly. Built for better assessments.</p>
+          <div className="flex items-center gap-4"><p>&copy; {new Date().getFullYear()} Examly. Built for better assessments.</p><Link href="/admin/login" className="font-medium hover:text-foreground">Admin portal</Link></div>
         </div>
       </footer>
     </div>
