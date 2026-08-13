@@ -45,7 +45,7 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
   }))
 
   return (
-    <div className="min-h-svh bg-muted/30">
+    <div className="min-h-svh bg-background">
       <AppHeader profile={profile} />
       <main className="mx-auto w-full max-w-4xl px-4 py-8">
         <Button variant="ghost" size="sm" asChild className="mb-4 -ml-2">

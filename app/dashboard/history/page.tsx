@@ -36,7 +36,7 @@ export default async function HistoryPage() {
   ]
 
   return (
-    <div className="min-h-svh bg-muted/30">
+    <div className="min-h-svh bg-background">
       <AppHeader profile={profile} nav={nav} />
       <main className="mx-auto w-full max-w-4xl px-4 py-8">
         <h1 className="mb-1 font-display text-2xl font-bold tracking-tight md:text-3xl">My results</h1>
