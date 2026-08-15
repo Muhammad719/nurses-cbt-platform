@@ -1,12 +1,14 @@
-export type Role = "student" | "admin"
+export type Role = "student" | "admin" | "super_admin"
 
 export type QuestionType = "mcq" | "true_false" | "fill_blank"
 
 export type Profile = {
   id: string
   full_name: string | null
+  email: string | null
   role: Role
   created_at: string
+  updated_at?: string
 }
 
 export type Exam = {
@@ -19,6 +21,7 @@ export type Exam = {
   is_published: boolean
   created_by: string | null
   created_at: string
+  updated_at?: string
 }
 
 export type Question = {
@@ -33,6 +36,7 @@ export type Question = {
   points: number
   order_index: number
   created_at: string
+  updated_at?: string
 }
 
 export type AttemptStatus = "in_progress" | "submitted"

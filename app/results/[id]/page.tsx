@@ -23,7 +23,8 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
   const { data: attempt } = await supabase.from("attempts").select("*").eq("id", id).single()
   if (!attempt || attempt.status !== "submitted") notFound()
   const a = attempt as Attempt
-  if (profile.role !== "admin" && a.student_id !== profile.id) notFound()
+  if (profile.role === "student" && a.student_id !== profile.id) notFound()
+  if (profile.role !== "student" && profile.role !== "admin" && profile.role !== "super_admin") notFound()
 
   const [{ data: examData }, { data: questionData }] = await Promise.all([
     supabase.from("exams").select("*").eq("id", a.exam_id).single(),
@@ -45,11 +46,11 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
   }))
 
   return (
-    <div className="min-h-svh bg-background">
+    <div className="min-h-svh bg-muted/30">
       <AppHeader profile={profile} />
       <main className="mx-auto w-full max-w-4xl px-4 py-8">
         <Button variant="ghost" size="sm" asChild className="mb-4 -ml-2">
-          <Link href={profile.role === "admin" ? "/admin/results" : "/dashboard/history"}>
+          <Link href={profile.role !== "student" ? "/admin/results" : "/dashboard/history"}>
             <ArrowLeft className="h-4 w-4" />
             Back
           </Link>

@@ -187,3 +187,32 @@ WHERE id = 'USER_UUID';
 4. Sign in at `/admin/login`.
 
 For an existing database, run `supabase/security-migration.sql` before using the new registration flow.
+
+
+## Role model
+
+The application uses three roles:
+
+- `student`: can take published exams and view their own results.
+- `admin`: can manage exams, questions, and submitted results.
+- `super_admin`: everything an admin can do, plus role management.
+
+### Existing Supabase project
+
+If the new role-separated schema has already been installed, you normally do not need to recreate the database. The application expects the `profiles.role` values `student`, `admin`, and `super_admin`.
+
+For an existing database, `supabase/role-separation-migration.sql` is provided as an idempotent migration. It preserves exam, question, attempt, and profile records.
+
+Create the first administrator in Supabase Authentication, then promote the profile to `super_admin` from the SQL Editor:
+
+```sql
+select id, email from auth.users where email = 'your-admin-email@example.com';
+
+update public.profiles
+set role = 'super_admin'
+where id = 'USER-UUID-HERE';
+```
+
+After that, sign in through `/admin/login`. Super Admins will see the **Users** section and can change roles without direct SQL.
+
+The application prevents a Super Admin from removing their own access and prevents the last Super Admin from being demoted.
