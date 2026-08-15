@@ -19,8 +19,10 @@ export async function getCurrentProfile(): Promise<Profile | null> {
     return {
       id: user.id,
       full_name: (user.user_metadata?.full_name as string) ?? null,
+      email: user.email ?? null,
       role: "student",
       created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     }
   }
 
