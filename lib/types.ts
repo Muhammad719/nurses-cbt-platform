@@ -1,10 +1,11 @@
-export type Role = "student" | "admin"
+export type Role = "student" | "admin" | "super_admin"
 
 export type QuestionType = "mcq" | "true_false" | "fill_blank"
 
 export type Profile = {
   id: string
   full_name: string | null
+  email: string | null
   role: Role
   created_at: string
 }

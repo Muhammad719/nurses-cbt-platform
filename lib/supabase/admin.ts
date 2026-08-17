@@ -13,6 +13,19 @@ export async function requireAdmin(): Promise<Profile> {
     .eq("id", user.id)
     .single()
 
-  if (!profile || profile.role !== "admin") redirect("/dashboard")
+  if (!profile || !["admin", "super_admin"].includes(profile.role)) {
+    redirect("/dashboard")
+  }
+
   return profile as Profile
+}
+
+export async function requireSuperAdmin(): Promise<Profile> {
+  const profile = await requireAdmin()
+
+  if (profile.role !== "super_admin") {
+    redirect("/admin")
+  }
+
+  return profile
 }
