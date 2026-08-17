@@ -16,15 +16,12 @@ export async function getCurrentProfile(): Promise<Profile | null> {
 
   if (!profile) {
     // Fallback if the trigger hasn't populated the row yet
-    const fallbackProfile: Profile = {
+    return {
       id: user.id,
-      full_name: (user.user_metadata?.full_name as string) ?? "",
-      email: user.email ?? "",  // Make sure this is not null
+      full_name: (user.user_metadata?.full_name as string) ?? null,
       role: "student",
       created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
     }
-    return fallbackProfile
   }
 
   return profile as Profile

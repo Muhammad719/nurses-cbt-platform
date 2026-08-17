@@ -39,9 +39,9 @@ export function AdminLoginForm() {
     }
 
     const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single()
-    if (!profile || !["admin", "super_admin"].includes(profile.role)) {
+    if (profile?.role !== "admin") {
       await supabase.auth.signOut()
-      setError("This account does not have administrator access. Please use the student login.")
+      setError("This account is a student account. Please use the student login.")
       setLoading(false)
       return
     }

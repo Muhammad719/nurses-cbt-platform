@@ -8,7 +8,7 @@ export default async function ExamPage({ params }: { params: Promise<{ id: strin
   const { id } = await params
   const profile = await getCurrentProfile()
   if (!profile) redirect("/auth/login")
-  if (profile.role !== "student") redirect("/admin")
+  if (profile.role === "admin") redirect("/admin")
 
   const supabase = await createClient()
 

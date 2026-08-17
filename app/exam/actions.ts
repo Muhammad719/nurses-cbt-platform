@@ -24,7 +24,7 @@ export async function submitExam(input: SubmitInput): Promise<SubmitResult> {
   } = await supabase.auth.getUser()
   if (!user) return { ok: false, error: "Not authenticated." }
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single()
-  if (profile?.role !== "student") return { ok: false, error: "Administrators cannot submit student exams." }
+  if (profile?.role === "admin") return { ok: false, error: "Administrators cannot submit student exams." }
 
   // Verify exam is published and load questions (server-side, with answers).
   const { data: exam } = await supabase
