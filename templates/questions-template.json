@@ -1,0 +1,22 @@
+{
+  "questions": [
+    {
+      "question_text": "What is the normal average adult body temperature?",
+      "options": ["35°C", "37°C", "40°C", "45°C"],
+      "correct_answer": "37°C",
+      "type": "mcq",
+      "subject": "Nursing Fundamentals",
+      "topic": "Vital Signs",
+      "points": 1
+    },
+    {
+      "question_text": "Hand hygiene helps prevent infection.",
+      "options": ["True", "False"],
+      "correct_answer": "True",
+      "type": "true_false",
+      "subject": "Nursing Fundamentals",
+      "topic": "Infection Prevention",
+      "points": 1
+    }
+  ]
+}

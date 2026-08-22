@@ -21,13 +21,6 @@ function getSupabaseConfig() {
 export async function updateSession(request: NextRequest) {
   const { url, key } = getSupabaseConfig()
 
-  // The administrator login page must remain publicly reachable.
-  // Otherwise the /admin/* proxy matcher would redirect /admin/login
-  // back to the normal student login before the admin form can render.
-  if (request.nextUrl.pathname === "/admin/login") {
-    return NextResponse.next({ request })
-  }
-
   if (!url || !key) {
     console.error(
       "[Supabase] Missing NEXT_PUBLIC_SUPABASE_URL and/or Supabase public key. " +
@@ -70,9 +63,7 @@ export async function updateSession(request: NextRequest) {
 
     if (!user) {
       const loginUrl = request.nextUrl.clone()
-      loginUrl.pathname = request.nextUrl.pathname.startsWith("/admin")
-        ? "/admin/login"
-        : "/auth/login"
+      loginUrl.pathname = "/auth/login"
       loginUrl.searchParams.set("next", request.nextUrl.pathname)
       return NextResponse.redirect(loginUrl)
     }

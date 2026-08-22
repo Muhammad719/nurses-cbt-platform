@@ -1,0 +1,26 @@
+QUESTION UPLOAD GUIDE
+
+The Admin -> Create Exam page can import questions directly while creating an exam.
+
+SUPPORTED FORMATS
+1. CSV (.csv)
+2. JSON (.json)
+
+CSV REQUIRED COLUMNS
+question
+option_a
+option_b
+option_c
+option_d
+correct_answer
+
+OPTIONAL COLUMNS
+type (mcq, true_false, fill_blank)
+subject
+topic
+points
+
+The correct_answer can be either a letter such as A, B, C or D, or the full answer text.
+
+For JSON, use an array of questions or an object containing a questions array.
+See the included template files for examples.
