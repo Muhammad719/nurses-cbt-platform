@@ -1,6 +1,6 @@
 import { notFound, redirect } from "next/navigation"
 import Link from "next/link"
-import { ArrowLeft, CheckCircle2, XCircle } from "lucide-react"
+import { ArrowLeft, CheckCircle2, XCircle, RotateCcw } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
 import { getCurrentProfile } from "@/lib/supabase/auth"
 import { AppHeader } from "@/components/app-header"
@@ -133,13 +133,21 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
           </CardContent>
         </Card>
 
-        <div className="mt-6 flex items-center justify-center gap-6 text-sm text-muted-foreground">
+        <div className="mt-6 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Button asChild>
+            <Link href={`/exam/${exam.id}`}>
+              <RotateCcw className="mr-2 h-4 w-4" />
+              Retake Exam
+            </Link>
+          </Button>
+          <div className="flex items-center gap-6 text-sm text-muted-foreground">
           <span className="inline-flex items-center gap-1.5">
             <CheckCircle2 className="h-4 w-4 text-success" /> Correct
           </span>
           <span className="inline-flex items-center gap-1.5">
             <XCircle className="h-4 w-4 text-destructive" /> Incorrect
           </span>
+          </div>
         </div>
       </main>
     </div>

@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { ChevronRight, FileText } from "lucide-react"
+import { ChevronRight, FileText, RotateCcw } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
 import { getCurrentProfile } from "@/lib/supabase/auth"
 import { AppHeader } from "@/components/app-header"
@@ -56,33 +56,42 @@ export default async function HistoryPage() {
               const exam = exams.find((e) => e.id === a.exam_id)
               const isPass = exam && (a.score ?? 0) >= exam.passing_score
               return (
-                <Link key={a.id} href={`/results/${a.id}`}>
-                  <Card className="transition-colors hover:border-primary/40">
-                    <CardContent className="flex items-center justify-between gap-4 py-4">
-                      <div className="min-w-0">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <p className="truncate font-medium">{exam?.title ?? "Exam"}</p>
-                          {exam?.subject && (
-                            <Badge variant="secondary" className="shrink-0">
-                              {exam.subject}
-                            </Badge>
-                          )}
-                        </div>
-                        <p className="mt-0.5 text-xs text-muted-foreground">
-                          {a.submitted_at ? new Date(a.submitted_at).toLocaleString() : ""} ·{" "}
-                          {a.correct_count ?? 0} correct
-                        </p>
+                <Card key={a.id} className="transition-colors hover:border-primary/40">
+                  <CardContent className="flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+                    <Link key={`${a.id}-result`} href={`/results/${a.id}`} className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="truncate font-medium">{exam?.title ?? "Exam"}</p>
+                        {exam?.subject && (
+                          <Badge variant="secondary" className="shrink-0">
+                            {exam.subject}
+                          </Badge>
+                        )}
                       </div>
-                      <div className="flex items-center gap-3">
+                      <p className="mt-0.5 text-xs text-muted-foreground">
+                        {a.submitted_at ? new Date(a.submitted_at).toLocaleString() : ""} ·{" "}
+                        {a.correct_count ?? 0} correct
+                      </p>
+                    </Link>
+                    <div className="flex items-center justify-between gap-3 sm:justify-end">
+                      <Link href={`/results/${a.id}`} className="flex items-center gap-3">
                         <span className="font-display text-xl font-bold">{a.score ?? 0}%</span>
                         <Badge variant={isPass ? "default" : "destructive"}>
                           {isPass ? "Passed" : "Failed"}
                         </Badge>
                         <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
+                      </Link>
+                      {exam && (
+                        <a
+                          href={`/exam/${exam.id}`}
+                          className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-3 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+                        >
+                          <RotateCcw className="mr-1.5 h-4 w-4" />
+                          Retake
+                        </a>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
               )
             })}
           </div>

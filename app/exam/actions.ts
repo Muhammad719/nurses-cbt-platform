@@ -34,16 +34,6 @@ export async function submitExam(input: SubmitInput): Promise<SubmitResult> {
     .single()
   if (!exam || !exam.is_published) return { ok: false, error: "Exam not available." }
 
-  // Prevent duplicate submissions.
-  const { data: existing } = await supabase
-    .from("attempts")
-    .select("id")
-    .eq("exam_id", input.examId)
-    .eq("student_id", user.id)
-    .eq("status", "submitted")
-    .maybeSingle()
-  if (existing) return { ok: false, error: "You have already submitted this exam.", attemptId: existing.id } as SubmitResult
-
   const { data: questionData } = await supabase
     .from("questions")
     .select("*")

@@ -21,16 +21,6 @@ export default async function ExamPage({ params }: { params: Promise<{ id: strin
   if (!examData) notFound()
   const exam = examData as Exam
 
-  // If already submitted, go straight to results.
-  const { data: existing } = await supabase
-    .from("attempts")
-    .select("id")
-    .eq("exam_id", id)
-    .eq("student_id", profile.id)
-    .eq("status", "submitted")
-    .maybeSingle()
-  if (existing) redirect(`/results/${existing.id}`)
-
   const { data: questionData } = await supabase
     .from("questions")
     .select("*")
